@@ -34,34 +34,49 @@
 
 ### Giao diện chính và chi tiết
 
-|             Màn hình chính (1)             |             Màn hình chính (2)             |             Thông tin sinh viên            |
-| :----------------------------------------: | :----------------------------------------: | :----------------------------------------: |
-| <img src="picture/main_1.png" width="250"> | <img src="picture/main_2.png" width="250"> | <img src="picture/second.png" width="250"> |
+|             Màn hình chính (1)             |             Màn hình chính (2)             |            Danh sách sinh viên           |             Thông tin sinh viên            |
+| :----------------------------------------: | :----------------------------------------: | :--------------------------------------: | :----------------------------------------: |
+| <img src="picture/main_1.png" width="200"> | <img src="picture/main_2.png" width="200"> | <img src="picture/list.png" width="200"> | <img src="picture/second.png" width="200"> |
 
-### Danh sách sinh viên và tính năng đa phương tiện
+### Giao diện tính năng đa phương tiện
 
-|            Danh sách sinh viên           |                  Đa phương tiện                  |                 Gửi tin nhắn                |                 Gọi điện                |                   Camera                   |
-| :--------------------------------------: | :----------------------------------------------: | :-----------------------------------------: | :-------------------------------------: | :----------------------------------------: |
-| <img src="picture/list.png" width="200"> | <img src="picture/daPhuongTien.png" width="200"> | <img src="picture/tinNhan.png" width="200"> | <img src="picture/goi.png" width="200"> | <img src="picture/camera.png" width="200"> |
+|             Chức năng đa phương tiện             |                   Gửi SMS                   |                 Gọi điện                |                   Camera                   |
+| :----------------------------------------------: | :-----------------------------------------: | :-------------------------------------: | :----------------------------------------: |
+| <img src="picture/daPhuongTien.png" width="200"> | <img src="picture/tinNhan.png" width="200"> | <img src="picture/goi.png" width="200"> | <img src="picture/camera.png" width="200"> |
 
-## 🧩 Cấu trúc Activity
+## 🧩 Cấu trúc Activity & Tệp giao diện
+
+### 📁 Activity
 
 * `MainActivity`: Nhập và lưu thông tin sinh viên
-* `SecondActivity`: Hiển thị thông tin sinh viên
-* `StudentListActivity`: Danh sách sinh viên từ SQLite
+* `SecondActivity`: Hiển thị thông tin sinh viên chi tiết
+* `StudentListActivity`: Hiển thị danh sách sinh viên từ SQLite
 * `SelectStudentActivity`: Chọn sinh viên để gán ảnh hoặc xóa
-* `DaPhuongTienActivity`: Chọn gọi, nhắn tin, camera
+* `DaPhuongTienActivity`: Màn hình chọn chức năng đa phương tiện
 * `PhoneActivity`: Gọi điện thoại
-* `SMSActivity`: Soạn và gửi tin nhắn
+* `SMSActivity`: Gửi tin nhắn
 * `CameraActivity`: Chụp và gán ảnh cho sinh viên
+
+### 🗂 Tệp giao diện `res/layout`
+
+```plaintext
+├── activity_main.xml
+├── activity_second.xml
+├── activity_select_student.xml
+├── activity_student_list.xml
+├── first_layout.xml
+├── phone_layout.xml
+├── pic_layout.xml
+├── sms_layout.xml
+└── student_list_item.xml
+```
 
 ## 🔄 Luồng hoạt động
 
-1. Người dùng nhập thông tin sinh viên → Lưu vào SQLite
-2. Có thể xem danh sách sinh viên đã lưu
-3. Chọn sinh viên để xem chi tiết hoặc xóa
-4. Chụp ảnh mới và gán ảnh cho sinh viên bất kỳ trong danh sách
-5. Gọi điện hoặc gửi tin nhắn từ giao diện đa phương tiện
+1. Nhập thông tin sinh viên → lưu vào SQLite
+2. Xem danh sách sinh viên → nhấn vào để xem chi tiết hoặc xóa
+3. Dùng camera chụp ảnh và gán cho sinh viên
+4. Truy cập giao diện đa phương tiện để gọi điện hoặc nhắn tin
 
 ## 🔐 Quyền truy cập
 
