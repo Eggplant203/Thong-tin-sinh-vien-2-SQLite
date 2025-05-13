@@ -49,15 +49,29 @@
             android:layout_marginBottom="16dp"
             app:srcCompat="@drawable/hello" />
 
-        <ImageButton
-            android:id="@+id/imgpic"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/pic" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imgpic"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/pic" />
+
+            <ImageButton
+                android:id="@+id/btnAssignPhoto"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/assign_pic" />
+        </LinearLayout>
     </LinearLayout>
 
     <Button

@@ -15,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtHoTen, edtMSSV, edtLop, edtKeHoach;
     private RadioGroup radioGroupNam;
     private CheckBox checkMTHTN, checkDienTu, checkVienThong;
-    private Button btnGuiThongTin, btnDaPhuongTien;
+    private Button btnGuiThongTin, btnDaPhuongTien, btnDanhSachSinhVien;
+    private DatabaseHelper dbHelper;
 
     private static final int REQUEST_CODE = 99;
 
@@ -35,15 +36,26 @@ public class MainActivity extends AppCompatActivity {
         checkVienThong = findViewById(R.id.checkVienThong);
         btnGuiThongTin = findViewById(R.id.btnGuiThongTin);
         btnDaPhuongTien = findViewById(R.id.btnDaPhuongTien);
+        btnDanhSachSinhVien = findViewById(R.id.btnDanhSachSinhVien);
+
+        // Khởi tạo database helper
+        dbHelper = new DatabaseHelper(this);
 
         // Xử lý khi nhấn nút Gửi thông tin
         btnGuiThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateInput()) {
-                    String thongTin = createInfoString();
+                    Student student = createStudentObject();
+                    long id = dbHelper.addStudent(student);
+
+                    if (id == -1) {
+                        Toast.makeText(MainActivity.this, "MSSV đã tồn tại!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                    intent.putExtra("thongTin", thongTin);
+                    intent.putExtra("mssv", student.getMssv());  // Chỉ cần gửi MSSV
                     startActivityForResult(intent, REQUEST_CODE);
                 }
             }
@@ -57,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnDanhSachSinhVien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StudentListActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
     }
 
     // Xử lý kết quả trả về từ SecondActivity
@@ -66,7 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE) {
             if (resultCode == 88) {
-                // Toast.makeText(this, "Đã quay lại từ màn hình thông tin", Toast.LENGTH_SHORT).show();
+                // Xử lý khi trở về từ SecondActivity
+                // Toast.makeText(this, "Trở về từ màn hình thông tin", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == 77) {
+                // Xử lý khi trở về từ StudentListActivity
+                // Toast.makeText(this, "Trở về từ danh sách sinh viên", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -106,50 +130,47 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private String createInfoString() {
-        StringBuilder info = new StringBuilder();
+    // Create Student object from input fields
+    private Student createStudentObject() {
+        String name = edtHoTen.getText().toString().trim();
+        String mssv = edtMSSV.getText().toString().trim();
+        String className = edtLop.getText().toString().trim();
 
-        info.append("HỌ VÀ TÊN: ").append(edtHoTen.getText().toString().trim()).append("\n");
-        info.append("MSSV: ").append(edtMSSV.getText().toString().trim()).append("\n");
-        info.append("LỚP: ").append(edtLop.getText().toString().trim()).append("\n\n");
-
-        info.append("SINH VIÊN NĂM: ");
+        // Get selected year
+        String year = "";
         int radioId = radioGroupNam.getCheckedRadioButtonId();
         if (radioId == R.id.radioNam1) {
-            info.append("Năm 1");
+            year = "Năm 1";
         } else if (radioId == R.id.radioNam2) {
-            info.append("Năm 2");
+            year = "Năm 2";
         } else if (radioId == R.id.radioNam3) {
-            info.append("Năm 3");
+            year = "Năm 3";
         } else if (radioId == R.id.radioNam4) {
-            info.append("Năm 4");
+            year = "Năm 4";
         }
-        info.append("\n");
 
-        info.append("CHUYÊN NGÀNH: ");
+        StringBuilder majors = new StringBuilder();
         boolean firstChecked = true;
         if (checkMTHTN.isChecked()) {
-            info.append("Máy tính & HTN");
+            majors.append("Máy tính & HTN");
             firstChecked = false;
         }
         if (checkDienTu.isChecked()) {
             if (!firstChecked) {
-                info.append(", ");
+                majors.append(", ");
             }
-            info.append("Điện tử");
+            majors.append("Điện tử");
             firstChecked = false;
         }
         if (checkVienThong.isChecked()) {
             if (!firstChecked) {
-                info.append(", ");
+                majors.append(", ");
             }
-            info.append("Viễn thông");
+            majors.append("Viễn thông");
         }
-        info.append("\n\n");
 
-        info.append("KẾ HOẠCH PHÁT TRIỂN BẢN THÂN:\n");
-        info.append(edtKeHoach.getText().toString().trim());
+        String plan = edtKeHoach.getText().toString().trim();
 
-        return info.toString();
+        return new Student(name, mssv, className, year, majors.toString(), plan);
     }
 }

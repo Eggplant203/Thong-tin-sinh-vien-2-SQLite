@@ -75,14 +75,23 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Back -->
-        <Button
-            android:id="@+id/btnBack"
+        <!-- Buttons -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="BACK"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#FF5722"
-            android:layout_margin="16dp"/>
+            android:orientation="vertical">
+
+            <!-- Back button -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BACK"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#FF5722"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
